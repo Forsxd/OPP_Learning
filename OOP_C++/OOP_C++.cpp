@@ -5,16 +5,80 @@ using namespace std;
 
 class Car
 {
-public:
-    int bhp;
+private:
     string name;
+    int bhp;
     double liters;
+    int torque;
     string engineType;
     int cilinders;
+public:
+    Car(string carName, int hp, int tq, double lit, string engineT, int cil)
+    {
+        name = carName;
+        bhp = hp;
+        torque = tq;
+        liters = lit;
+        engineType = engineT;
+        cilinders = cil;
+        cout << "Конструтор сконструировал " << name << endl;
+    }
+
+    Car()
+    {
+        name = "Name of a Car";
+        bhp = 0;
+        torque = 0;
+        liters = 0;
+        engineType = "Engine type here ";
+        cilinders = 0;
+    }
+
+    ~Car()
+    {
+        cout << "Деструктор деструкторировал " << name << endl;
+    }
+
     void carInfo()
     {
         cout << name << endl;
-        cout << bhp << "HP\n" << liters << "L\n" << engineType << cilinders << endl << endl;
+        cout << bhp << "HP\n" << torque << "Nm\n" << liters << "L\n" << engineType << cilinders << endl << endl;
+    }
+    string GetName()
+    {
+        return name;
+    }
+
+    void SetCar(string carName, int bhppower, int tq, double lit, string engineT, int cil)
+    {
+        name = carName;
+        bhp = bhppower;
+        torque = tq;
+        liters = lit;
+        engineType = engineT;
+        cilinders = cil;
+    }
+};
+
+class CoffeeGrinder
+{
+private:
+    bool checkVolt()
+    {
+        return true;
+    }
+
+public:
+    void start()
+    {
+        if (checkVolt())
+        {
+            cout << "Кофе перемалывается" << endl;
+        }
+        else
+        {
+            cout << "Напряжение не в норме" << endl;
+        }
     }
 };
 
@@ -22,19 +86,11 @@ int main()
 {
     setlocale(LC_ALL, "ru");
     srand(time(NULL));
-    Car BMW_M5;
-    BMW_M5.name = "BMW M5 Competition";
-    BMW_M5.bhp = 625;
-    BMW_M5.liters = 4.4;
-    BMW_M5.engineType = "V";
-    BMW_M5.cilinders = 8;
+    Car BMW_M5("BMW M5 F90 Cometition", 625, 750, 4.4, "V", 8);
     BMW_M5.carInfo();
-    Car Porshe911;
-    Porshe911.name = "Porshe 911 GT3 RS";
-    Porshe911.bhp = 518;
-    Porshe911.liters = 4.0;
-    Porshe911.engineType = "I";
-    Porshe911.cilinders = 6;
-    Porshe911.carInfo();
+    Car Porshe911TS("Porshe 911 (992) Turbo S", 640, 800, 3.7, "F", 6);
+    Porshe911TS.carInfo();
+    Car placeHolder;
+    placeHolder.carInfo();
     return 0;
 }
