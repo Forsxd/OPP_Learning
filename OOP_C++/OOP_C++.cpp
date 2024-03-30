@@ -126,17 +126,54 @@ Test foo2() {
     return temp;
 }
 
+class Point {
+private:
+    int x;
+    int y;
+public:
+    Point() {
+        x = 0;
+        y = 0;
+    }
+    Point(int x, int y) {
+        this->x = x;
+        this->y = y;
+    }
+    bool operator ==(const Point& other) {
+        return this->x == other.x && this->y == other.y;
+    }
+    bool operator !=(const Point& other) {
+        return this->x != other.x && this->y != other.y;
+    }
+    Point operator +(const Point &other) {
+        Point temp;
+        temp.x = this->x + other.y;
+        temp.y = this->y + other.y;
+        return temp;
+    }
+    void Print() {
+        cout << x << " " << y << endl;
+    }
+};
+
+class Human {
+private:
+    int year;
+    int weight;
+    string name;
+public:
+    void Print() {
+        cout << "Имя: " << name << endl << "Вес: " << weight << endl << "Год рождения: " << year << endl;
+    }
+};
+
 int main()
 {
     setlocale(LC_ALL, "ru");
     srand(time(NULL));
-    /*Car BMW_M5("BMW M5 F90 Cometition", 625, 750, 4.4, "V", 8);
-    BMW_M5.carInfo();
-    BMW_M5.setBhp(1500);
-    BMW_M5.carInfo();*/
-    /*Test dataTest(5);
-    foo(dataTest);*/
-    Test a(10);
-    Test b(a);
+    Point a(5, 1);
+    Point b(3, 4);
+    Point c = a + b;
+    c.Print();
     return 0;
 }
