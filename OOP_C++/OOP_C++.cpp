@@ -3,8 +3,19 @@
 
 using namespace std;
 
+class Car;
+
+class sevenforce {
+public:
+    void stage1(Car& car);
+    void stage2(Car& car);
+    void stage3(Car& car);
+};
+
 class Car
 {
+    friend sevenforce;
+
 private:
     string name;
     int bhp;
@@ -12,6 +23,7 @@ private:
     int torque;
     string engineType;
     int cilinders;
+
 public:
     Car(string name, int bhp, int torque, double liters, string engineType, int cilinders)
     {
@@ -21,13 +33,8 @@ public:
         this->liters = liters;
         this->engineType = engineType;
         this->cilinders = cilinders;
-        cout << "Конструтор сконструировал " << name << endl;
+        cout << "Р‘Р»СЏС‚СЊ РЅР°С…СѓР№ " << name << " РјР°С€РёРЅР° РіРѕС‚РѕРІР° " << name << endl;
     }
-
-    void setBhp(int bhp) {
-        this->bhp = bhp;
-    }
-
     Car()
     {
         name = "Name of a Car";
@@ -37,12 +44,10 @@ public:
         engineType = "Engine type here ";
         cilinders = 0;
     }
-
     ~Car()
     {
-        cout << "Деструктор деструкторировал " << name << endl;
+        cout << "Р‘Р»СЏС‚СЊ РЅР°С…СѓР№ " << name << " СѓРЅРёС‡С‚РѕР¶РµРЅР° Рє РµР±РµРЅРё С„РµРЅРё" << endl;
     }
-
     void carInfo()
     {
         cout << name << endl;
@@ -52,7 +57,6 @@ public:
     {
         return name;
     }
-
     void SetCar(string carName, int bhppower, int tq, double lit, string engineT, int cil)
     {
         name = carName;
@@ -62,6 +66,7 @@ public:
         engineType = engineT;
         cilinders = cil;
     }
+    void printMessage();
 };
 
 class CoffeeGrinder
@@ -77,11 +82,11 @@ public:
     {
         if (checkVolt())
         {
-            cout << "Кофе перемалывается" << endl;
+            cout << "РќР°РїСЂСЏРіР° РµСЃС‚СЊ" << endl;
         }
         else
         {
-            cout << "Напряжение не в норме" << endl;
+            cout << "Р±РµР· РЅР°РїСЂСЏРіРё рџ’Ђрџ’Ђрџ’Ђ" << endl;
         }
     }
 };
@@ -89,6 +94,7 @@ public:
 class Test {
 private:
     int Size;
+
 public:
     int *data;
     Test(int size) {
@@ -98,10 +104,10 @@ public:
         {
             data[i] = i;
         }
-        cout << "data присвоена" << endl;
+        cout << "data created" << endl;
     }
     Test(const Test& other) {
-        cout << "copy of data присвоена" << endl;
+        cout << "copy of data created" << endl;
         this->Size = other.Size;
         this->data = new int[other.Size];
         for (int i = 0; i < other.Size; i++)
@@ -109,19 +115,18 @@ public:
             this->data[i] = other.data[i];
         }
     }
-    
     ~Test() {
-        cout << "data отсвоена" << endl;
+        cout << "drop table" << endl;
         delete[] data;
     }
 };
 
 void foo(Test value) {
-    cout << "функция вызвалась" << endl;
+    cout << "foo called" << endl;
 }
 
 Test foo2() {
-    cout << "функция 2 вызвалась" << endl;
+    cout << "foo2 called" << endl;
     Test temp(2);
     return temp;
 }
@@ -151,8 +156,43 @@ public:
         temp.y = this->y + other.y;
         return temp;
     }
-    void Print() {
+    void print() {
         cout << x << " " << y << endl;
+    }
+    void setX(int x) {
+        this->x = x;
+    }
+    void setY(int y) {
+        this->y = y;
+    }
+    void setPoint(int x, int y) {
+        this->x = x;
+        this->y = y;
+    }
+    Point & operator ++() {
+        this->x += 1;
+        this->y++;
+        return *this;
+    }
+    Point& operator ++(int val) {
+        Point temp(*this);
+        this->x++;
+        this->y++;
+        return temp;
+    }
+    friend void changeX(Point& a);
+};
+
+void changeX(Point& a) {
+    a.x = 5;
+}
+
+class Massiv{
+private:
+    int arr[5]{ 47, 78, 3, 96, 16 };
+public:
+    int& operator [](int index) {
+        return arr[index];
     }
 };
 
@@ -162,8 +202,8 @@ private:
     int weight;
     string name;
 public:
-    void Print() {
-        cout << "Имя: " << name << endl << "Вес: " << weight << endl << "Год рождения: " << year << endl;
+    void print() {
+        cout << "РРјСЏ: " << name << endl << "Р’РµСЃ: " << weight << endl << "Р“РѕРґ: " << year << endl;
     }
 };
 
@@ -171,9 +211,27 @@ int main()
 {
     setlocale(LC_ALL, "ru");
     srand(time(NULL));
-    Point a(5, 1);
-    Point b(3, 4);
-    Point c = a + b;
-    c.Print();
-    return 0;
+    int a = 5;
+    int* b = &a;
+    cout << *b << endl;
+}
+
+void Car::printMessage() {
+    cout << name << endl;
+}
+
+void sevenforce::stage1(Car& car) {
+    car.bhp += 75;
+    car.torque += 120;
+}
+
+void sevenforce::stage2(Car& car) {
+    car.bhp += 150;
+    car.torque += 200;
+}
+
+void sevenforce::stage3(Car& car) {
+    car.bhp += 285;
+    car.torque += 355;
+    car.liters += 0.4;
 }
