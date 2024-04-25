@@ -232,7 +232,7 @@ public:
     }
 };
 
-class Cap /*Композиция, типо мы кепку можем на что угодно нацепить, по этому мы ее отдельно выносим, а не в классе Human делаем(надо создать класс Cap в Human)*/ {
+class Cap /*Агрегация, типо мы кепку можем на что угодно нацепить, по этому мы ее отдельно выносим, а не в классе Human делаем(надо создать класс Cap в Human)*/ {
 public:
     string getColor() {
         return color;
@@ -263,7 +263,7 @@ public:
     void print() {
         cout << "Name: " << name << endl << "Weight: " << weight << endl << "Year: " << year << endl;
     }
-    void think() { /*Делегирование, мы вызываем think у Human, а в этот момент think вызывает think у Brain(надо создать класс Brain в Human)*/
+    void think() { /*Композиция, мы вызываем think у Human, а в этот момент think вызывает think у Brain(надо создать класс Brain в Human)*/
         brain.think();
     }
     void inspectCap() {
