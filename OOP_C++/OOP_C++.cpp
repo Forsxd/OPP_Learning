@@ -5,7 +5,7 @@ using namespace std;
 
 class Car;
 
-class sevenforce {
+class Sevenforce {
 public:
     void stage1(Car& car);
     void stage2(Car& car);
@@ -14,7 +14,7 @@ public:
 
 class Car
 {
-    friend sevenforce;
+    friend Sevenforce;
 
 private:
     string name;
@@ -33,7 +33,7 @@ public:
         this->liters = liters;
         this->engineType = engineType;
         this->cilinders = cilinders;
-        cout << "Блять нахуй " << name << " машина готова " << name << endl;
+        cout << "Блять нахуй " << name << " машина готова " << endl;
     }
     Car()
     {
@@ -57,15 +57,6 @@ public:
     {
         return name;
     }
-    void SetCar(string carName, int bhppower, int tq, double lit, string engineT, int cil)
-    {
-        name = carName;
-        bhp = bhppower;
-        torque = tq;
-        liters = lit;
-        engineType = engineT;
-        cilinders = cil;
-    }
     void printMessage();
 };
 
@@ -74,7 +65,13 @@ class CoffeeGrinder
 private:
     bool checkVolt()
     {
-        return true;
+        int a = rand() % 220;
+        if (a >= 120) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
 public:
@@ -183,11 +180,50 @@ public:
     friend void changeX(Point& a);
 };
 
+class Apple {
+private:
+    int weight;
+    string color;
+    int id;
+    static int count;
+    int test = 5;
+
+public:
+    Apple() {
+        
+    }
+    Apple(int weight, string color) {
+        this->weight = weight;
+        this->color = color;
+        id = count;
+        count++;
+    }
+    int getId() {
+        cout << "id: " << id << endl;
+        return 0;
+    }
+    static int getCount() {
+        cout << "count: " << count << endl;
+        return 0;
+    }
+    static void staticColorChanger(Apple &apple, string color) {
+        apple.color = color;
+    }
+    void colorChanger(string color) {
+        this->color = color;
+    }
+    void getColor() {
+        cout << this->color << endl;
+    }
+};
+
 void changeX(Point& a) {
-    a.x = 5;
+    a.x = 6;
 }
 
-class Massiv{
+int Apple::count = 0;
+
+class Massiv /*Перегрузка оператора индексирования*/ {
 private:
     int arr[5]{ 47, 78, 3, 96, 16 };
 public:
@@ -196,41 +232,107 @@ public:
     }
 };
 
+class Cap /*Композиция, типо мы кепку можем на что угодно нацепить, по этому мы ее отдельно выносим, а не в классе Human делаем(надо создать класс Cap в Human)*/ {
+public:
+    string getColor() {
+        return color;
+    }
+private:
+    string color = "purple";
+};
+
 class Human {
 private:
     int year;
     int weight;
     string name;
+    class Brain {
+    public:
+        void think() {
+            cout << "I'm thinking" << endl;
+        }
+    };
+    Brain brain;
+    Cap cap;
 public:
+    Human(string name, int weight, int year) {
+        this->name = name;
+        this->weight = weight;
+        this->year = year;
+    }
     void print() {
-        cout << "Имя: " << name << endl << "Вес: " << weight << endl << "Год: " << year << endl;
+        cout << "Name: " << name << endl << "Weight: " << weight << endl << "Year: " << year << endl;
+    }
+    void think() { /*Делегирование, мы вызываем think у Human, а в этот момент think вызывает think у Brain(надо создать класс Brain в Human)*/
+        brain.think();
+    }
+    void inspectCap() {
+        cout << "My cap is " << cap.getColor() << endl;
+    }
+};
+
+class Screan /*Вложеннные классы*/ {
+private:
+    class Pixel {
+    private:
+        int r;
+        int g;
+        int b;
+
+    public:
+        Pixel(int r, int g, int b) {
+            this->r = r;
+            this->g = g;
+            this->b = b;
+        }
+        string getInfo() {
+            return "Pixel: r = " + to_string(r) + " g = " + to_string(g) + " b = " + to_string(b);
+        }
+    };
+    static const int LENGHT = 5;
+    Pixel pixels[LENGHT]{
+        Pixel(rand() % 255, rand() % 255, rand() % 255),
+        Pixel(rand() % 255, rand() % 255, rand() % 255),
+        Pixel(rand() % 255, rand() % 255, rand() % 255),
+        Pixel(rand() % 255, rand() % 255, rand() % 255),
+        Pixel(rand() % 255, rand() % 255, rand() % 255)
+    };
+public:
+    void getScreanInfo() {
+        for (int i = 0; i < LENGHT; i++)
+        {
+            cout << pixels[i].getInfo() << endl;
+        }
     }
 };
 
 int main()
 {
     setlocale(LC_ALL, "ru");
-    srand(time(NULL));
-    int a = 5;
-    int* b = &a;
-    cout << *b << endl;
+    srand(time(NULL));      
+    Human human("Lol Kekovich", 52, 2003);
+    human.print();
+    human.think();
+    human.inspectCap();
+    
 }
 
 void Car::printMessage() {
     cout << name << endl;
 }
 
-void sevenforce::stage1(Car& car) {
+void Sevenforce::stage1(Car& car) {
     car.bhp += 75;
     car.torque += 120;
+    cout << "Произведен чип тюниг" << endl;
 }
 
-void sevenforce::stage2(Car& car) {
+void Sevenforce::stage2(Car& car) {
     car.bhp += 150;
     car.torque += 200;
 }
 
-void sevenforce::stage3(Car& car) {
+void Sevenforce::stage3(Car& car) {
     car.bhp += 285;
     car.torque += 355;
     car.liters += 0.4;
